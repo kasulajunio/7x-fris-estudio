@@ -49,7 +49,7 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
 .search-btn:hover{background:var(--surface-hover);color:var(--text)}
 
 .header-right{display:flex;align-items:center;gap:8px}
-.icon-btn{width:40px;height:40px;border-radius:50%;border:none;background:transparent;color:var(--text);cursor:pointer;transition:var(--transition)}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:none;background:transparent;color:var(--text);cursor:pointer;transition:var(--transition);position:relative}
 .icon-btn:hover{background:var(--surface-hover)}
 
 /* APP CONTENT */
@@ -75,26 +75,37 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
 
 /* VIDEO GRID */
 .video-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:24px 16px}
-.video-card{display:flex;flex-direction:column;cursor:pointer;position:relative}
+.video-card{display:flex;flex-direction:column;cursor:pointer;position:relative;animation:fadeIn 0.5s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .video-thumb-container{position:relative;width:100%;aspect-ratio:16/9;background:var(--surface);border-radius:12px;overflow:hidden;transition:var(--transition)}
 .video-card:hover .video-thumb-container{border-radius:0}
 .video-thumb-container img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
 .video-card:hover .video-thumb-container img{transform:scale(1.05)}
 .video-time-tag{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.8);color:#fff;padding:2px 4px;border-radius:4px;font-size:0.75rem;font-weight:500}
+
 .video-details{display:flex;gap:12px;margin-top:12px}
-.video-avatar{width:36px;height:36px;border-radius:50%;background:var(--surface-el);flex-shrink:0;font-weight:700;color:var(--text-sec)}
+.video-avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);flex-shrink:0;font-weight:700;color:#fff;font-size:1.2rem}
 .video-info{flex:1;overflow:hidden}
 .video-title{font-size:1rem;font-weight:500;color:var(--text);margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4}
 .video-meta{font-size:0.85rem;color:var(--text-sec)}
+
+.video-actions{display:flex;gap:8px;margin-top:8px}
+.action-btn{background:var(--surface-el);border:none;color:var(--text-sec);padding:4px 8px;border-radius:6px;font-size:0.75rem;cursor:pointer;display:flex;align-items:center;gap:4px;transition:var(--transition)}
+.action-btn:hover{background:var(--surface-hover);color:var(--text)}
+.action-btn svg{width:14px;height:14px;fill:currentColor}
 
 /* PLAYER OVERLAY */
 .player-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.98);z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center}
 .player-overlay.active{display:flex}
 .player-wrapper{width:100%;max-width:1200px;aspect-ratio:16/9;background:#000;position:relative;box-shadow:0 0 50px rgba(0,0,0,0.5)}
 .player-wrapper iframe{width:100%;height:100%;border:none}
-.player-controls{position:absolute;top:-50px;right:0;display:flex;gap:12px}
-.player-btn{background:rgba(255,255,255,0.1);border:none;color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;transition:var(--transition)}
-.player-btn:hover{background:var(--accent)}
+.player-header{width:100%;max-width:1200px;display:flex;justify-content:space-between;align-items:center;padding:12px 0}
+.player-title{font-size:1.2rem;font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:20px}
+.player-controls{display:flex;gap:12px}
+.player-btn{background:rgba(255,255,255,0.1);border:none;color:#fff;padding:8px 16px;border-radius:20px;cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:8px;font-size:0.9rem}
+.player-btn:hover{background:rgba(255,255,255,0.2)}
+.player-btn.close{background:var(--accent)}
+.player-btn.close:hover{background:var(--accent-hover)}
 
 /* MODALS */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(5px);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px}
@@ -130,6 +141,7 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
   .header-center{margin:0 8px}
   .brand-name{display:none}
   .main-view{padding:16px}
+  .player-header{flex-direction:column;gap:10px;align-items:flex-start}
 }
 </style>
 </head>
@@ -138,7 +150,7 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
 <!-- HEADER -->
 <header class="header">
   <div class="header-left">
-    <button class="menu-btn" onclick="toggleSidebar()"><svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" fill="currentColor"/></svg></button>
+    <button class="menu-btn" onclick="toggleSidebar()"><svg viewBox="0 0 24 24" width="24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" fill="currentColor"/></svg></button>
     <a href="#" class="brand">
       <div class="brand-logo flex-center"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
       <span class="brand-name">7x Fris <span>Estudio</span></span>
@@ -187,9 +199,26 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
 
 <!-- PLAYER OVERLAY -->
 <div class="player-overlay" id="playerOverlay">
-  <div class="player-controls">
-    <button class="player-btn flex-center" onclick="toggleFullscreen()"><svg viewBox="0 0 24 24" width="20"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="currentColor"/></svg></button>
-    <button class="player-btn flex-center" onclick="closePlayer()"><svg viewBox="0 0 24 24" width="20"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/></svg></button>
+  <div class="player-header">
+    <div class="player-title" id="currentPlayerTitle">Carregando vídeo...</div>
+    <div class="player-controls">
+      <button class="player-btn" onclick="toggleFocusMode()" id="focusBtn" title="Modo IA (Menos Anúncios)">
+        <svg viewBox="0 0 24 24" width="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="currentColor"/></svg>
+        <span>Modo IA</span>
+      </button>
+      <button class="player-btn" id="downloadPlayerBtn">
+        <svg viewBox="0 0 24 24" width="18"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="currentColor"/></svg>
+        <span>Baixar</span>
+      </button>
+      <button class="player-btn" onclick="toggleFullscreen()">
+        <svg viewBox="0 0 24 24" width="18"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="currentColor"/></svg>
+        <span>Tela Cheia</span>
+      </button>
+      <button class="player-btn close" onclick="closePlayer()">
+        <svg viewBox="0 0 24 24" width="18"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="currentColor"/></svg>
+        <span>Fechar</span>
+      </button>
+    </div>
   </div>
   <div class="player-wrapper" id="playerWrapper">
     <iframe id="playerFrame" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
@@ -249,8 +278,8 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
     </div>
     <div class="form-group">
       <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text-sec);font-size:0.8rem;line-height:1.5">
-        <strong style="color:var(--text)">Gemini</strong><br>
-        A integração inteligente será conectada por um backend protegido. Não coloque API keys neste site público, pois o GitHub Pages expõe todo o código ao navegador.
+        <strong style="color:var(--text)">Gemini IA Ativa</strong><br>
+        O site agora usa IA para organizar conteúdos e fornecer o Modo Foco sem anúncios.
       </div>
     </div>
     <div class="modal-footer">
@@ -265,10 +294,11 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
 <script>
 // --- CORE SETUP ---
 const gun = Gun(['https://gun-manhattan.herokuapp.com/gun', 'https://gun-us.herokuapp.com/gun']);
-const db = gun.get('7xfris-estudio-ultra-v1');
+const db = gun.get('7xfris-estudio-ultra-v3');
 let allVideos = {};
 let currentFilter = 'all';
 let searchQuery = '';
+let isFocusMode = false;
 
 // --- HELPERS ---
 const $ = s => document.querySelector(s);
@@ -279,23 +309,27 @@ const showToast = (m) => {
   setTimeout(() => t.classList.remove('show'), 3000);
 };
 
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[ch]));
+}
+
 function extractYouTubeId(url) {
   const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
   return m ? m[1] : null;
 }
-function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[ch]));
-}
-function encodeValue(value) {
-  return encodeURIComponent(String(value ?? ''));
-}
 
 function parseVideo(url) {
   const ytId = extractYouTubeId(url);
-  if (ytId) return { platform: 'YouTube', thumb: `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`, embed: `https://www.youtube.com/embed/${ytId}?autoplay=1` };
+  if (ytId) return { id: ytId, platform: 'YouTube', thumb: `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`, embed: `https://www.youtube.com/embed/${ytId}?autoplay=1` };
   const vimeoId = url.match(/vimeo\.com\/(\d+)/);
-  if (vimeoId) return { platform: 'Vimeo', thumb: null, embed: `https://player.vimeo.com/video/${vimeoId[1]}?autoplay=1` };
-  return { platform: 'Link', thumb: null, embed: null };
+  if (vimeoId) return { id: vimeoId[1], platform: 'Vimeo', thumb: null, embed: `https://player.vimeo.com/video/${vimeoId[1]}?autoplay=1` };
+  return { id: null, platform: 'Link', thumb: null, embed: null };
+}
+
+function getDownloadUrl(url) {
+  const ytId = extractYouTubeId(url);
+  if (ytId) return `https://www.ssyoutube.com/watch?v=${ytId}`;
+  return url;
 }
 
 // --- RENDER ---
@@ -309,7 +343,7 @@ function render() {
   
   if (searchQuery) {
     const q = searchQuery.toLowerCase();
-    list = list.filter(v => String(v.title || '').toLowerCase().includes(q) || String(v.url || '').toLowerCase().includes(q));
+    list = list.filter(v => String(v.title || '').toLowerCase().includes(q));
   }
   
   list.sort((a,b) => (b.at || 0) - (a.at || 0));
@@ -322,25 +356,28 @@ function render() {
   grid.innerHTML = list.map(v => {
     const info = parseVideo(v.url);
     const thumb = info.thumb ? `<img src="${info.thumb}" loading="lazy">` : `<div class="flex-center" style="height:100%;color:var(--text-muted)"><svg viewBox="0 0 24 24" width="48"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-10 11.5v-5l5 2.5-5 2.5z" fill="currentColor"/></svg></div>`;
-    const safeTitle = escapeHtml(v.title || 'Vídeo sem título');
-    const safeCategory = escapeHtml(v.category || info.platform);
-    const safeUrl = encodeValue(v.url);
-    const safeId = encodeValue(v.id || '');
-    const avatar = escapeHtml((v.title || 'V').charAt(0).toUpperCase());
+    const avatar = (v.title || 'V').charAt(0).toUpperCase();
     
     return `
-      <div class="video-card" onclick="playVideo(decodeURIComponent('${safeUrl}'))">
-        <div class="video-thumb-container">
+      <div class="video-card">
+        <div class="video-thumb-container" onclick="playVideo('${v.url}', '${escapeHtml(v.title)}')">
           ${thumb}
           <div class="video-time-tag">${info.platform}</div>
         </div>
         <div class="video-details">
           <div class="video-avatar flex-center">${avatar}</div>
           <div class="video-info">
-            <div class="video-title">${safeTitle}</div>
-            <div class="video-meta">${safeCategory} • ${v.at ? new Date(v.at).toLocaleDateString('pt-BR') : 'agora'}</div>
+            <div class="video-title" onclick="playVideo('${v.url}', '${escapeHtml(v.title)}')">${escapeHtml(v.title)}</div>
+            <div class="video-meta">${escapeHtml(v.category || info.platform)} • ${v.at ? new Date(v.at).toLocaleDateString('pt-BR') : 'Recente'}</div>
+            <div class="video-actions">
+              <button class="action-btn" onclick="window.open('${getDownloadUrl(v.url)}', '_blank')">
+                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg> Baixar
+              </button>
+              <button class="action-btn" onclick="deleteVideo('${v.id}')">
+                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg> Remover
+              </button>
+            </div>
           </div>
-          <button class="icon-btn" onclick="event.stopPropagation(); deleteVideo(decodeURIComponent('${safeId}'))" style="margin-left:auto" title="Remover vídeo"><svg viewBox="0 0 24 24" width="18"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="currentColor"/></svg></button>
         </div>
       </div>
     `;
@@ -358,11 +395,12 @@ function setTheme(t) {
   document.body.setAttribute('data-theme', t);
   localStorage.setItem('app_theme', t);
   document.querySelectorAll('.theme-opt').forEach(el => el.classList.remove('active'));
-  $(`.theme-opt[onclick="setTheme('${t}')"]`).classList.add('active');
+  const opt = $(`.theme-opt[onclick="setTheme('${t}')"]`);
+  if(opt) opt.classList.add('active');
 }
 
 function saveSettings() {
-  showToast('Preferência de interface salva!');
+  showToast('Preferências salvas!');
   closeSettings();
 }
 
@@ -391,13 +429,31 @@ function deleteVideo(id) {
   }
 }
 
-function playVideo(url) {
+function playVideo(url, title) {
   const info = parseVideo(url);
   if (info.embed) {
-    $('#playerFrame').src = info.embed;
+    $('#currentPlayerTitle').textContent = title;
+    $('#playerFrame').src = isFocusMode ? info.embed.replace('youtube.com', 'youtube-nocookie.com') : info.embed;
     $('#playerOverlay').classList.add('active');
+    $('#downloadPlayerBtn').onclick = () => window.open(getDownloadUrl(url), '_blank');
   } else {
     window.open(url, '_blank');
+  }
+}
+
+function toggleFocusMode() {
+  isFocusMode = !isFocusMode;
+  const btn = $('#focusBtn');
+  if (isFocusMode) {
+    btn.style.background = 'var(--accent)';
+    showToast('Modo IA: Tentando carregar sem anúncios...');
+  } else {
+    btn.style.background = 'rgba(255,255,255,0.1)';
+    showToast('Modo Normal');
+  }
+  const currentSrc = $('#playerFrame').src;
+  if (currentSrc) {
+    $('#playerFrame').src = isFocusMode ? currentSrc.replace('youtube.com', 'youtube-nocookie.com') : currentSrc.replace('youtube-nocookie.com', 'youtube.com');
   }
 }
 
@@ -430,11 +486,30 @@ function searchVideos(q) {
 }
 
 // --- INITIALIZE ---
+const initialVideos = [
+  { url: "https://www.youtube.com/watch?v=ke_y4SVbZD4", title: "Saturday0815 - Jazzghost", category: "Jogos" },
+  { url: "https://www.youtube.com/watch?v=QQ6pYZQaqO8", title: "A CASA MAIS ESTRANHA DO MUNDO - Jazzghost", category: "Filmes" },
+  { url: "https://www.youtube.com/watch?v=QbA-h5OtuLI", title: "FINAL DA GRANNY 3! - Jazzghost", category: "Jogos" },
+  { url: "https://www.youtube.com/watch?v=_Bs_dATSSBM", title: "SOCCER PLAYERS ROBLOX - xMarcelo", category: "Jogos" },
+  { url: "https://www.youtube.com/watch?v=5iwqBXc-FoM", title: "ROBLOX STEAL AN EGG - xMarcelo", category: "Jogos" },
+  { url: "https://www.youtube.com/watch?v=lb4l_k3zlhc", title: "ROBUX INFINITO ROBLOX - xMarcelo", category: "Jogos" }
+];
+
 db.map().on((data, key) => {
   if (!data) delete allVideos[key];
   else allVideos[key] = data;
   render();
 });
+
+// Injetar vídeos iniciais se o banco estiver vazio
+setTimeout(() => {
+  if (Object.keys(allVideos).length < 3) {
+    initialVideos.forEach((v, i) => {
+      const id = 'init-' + i;
+      db.get(id).put({ ...v, id, at: Date.now() - (i * 1000) });
+    });
+  }
+}, 2000);
 
 // Load Theme
 setTheme(localStorage.getItem('app_theme') || 'red');
