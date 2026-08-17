@@ -602,15 +602,37 @@ function searchVideos(q) {
 
 // --- INICIALIZAÇÃO ---
 const initialVideos = [
-  { url: "https://www.youtube.com/watch?v=ke_y4SVbZD4", title: "Saturday0815 - Jazzghost", category: "Jogos" },
-  { url: "https://www.youtube.com/watch?v=QQ6pYZQaqO8", title: "A CASA MAIS ESTRANHA DO MUNDO - Jazzghost", category: "Filmes" },
-  { url: "https://www.youtube.com/watch?v=QbA-h5OtuLI", title: "FINAL DA GRANNY 3! - Jazzghost", category: "Jogos" },
-  { url: "https://www.youtube.com/watch?v=_Bs_dATSSBM", title: "SOCCER PLAYERS ROBLOX - xMarcelo", category: "Jogos" },
-  { url: "https://www.youtube.com/watch?v=5iwqBXc-FoM", title: "ROBLOX STEAL AN EGG - xMarcelo", category: "Jogos" },
-  { url: "https://www.youtube.com/watch?v=lb4l_k3zlhc", title: "ROBUX INFINITO ROBLOX - xMarcelo", category: "Jogos" },
-  { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", title: "Never Gonna Give You Up - Clássico", category: "Música" },
-  { url: "https://www.youtube.com/watch?v=tPjVxvhcy9E", title: "PARKOUR ROBLOX - xMarcelo", category: "Jogos" }
-];
+	  { url: "https://www.youtube.com/watch?v=ke_y4SVbZD4", title: "Saturday0815 - Jazzghost", category: "Jogos" },
+	  { url: "https://www.youtube.com/watch?v=QQ6pYZQaqO8", title: "A CASA MAIS ESTRANHA DO MUNDO - Jazzghost", category: "Filmes" },
+	  { url: "https://www.youtube.com/watch?v=QbA-h5OtuLI", title: "FINAL DA GRANNY 3! - Jazzghost", category: "Jogos" },
+	  { url: "https://www.youtube.com/watch?v=_Bs_dATSSBM", title: "SOCCER PLAYERS ROBLOX - xMarcelo", category: "Jogos" },
+	  { url: "https://www.youtube.com/watch?v=5iwqBXc-FoM", title: "ROBLOX STEAL AN EGG - xMarcelo", category: "Jogos" },
+	  { url: "https://www.youtube.com/watch?v=lb4l_k3zlhc", title: "ROBUX INFINITO ROBLOX - xMarcelo", category: "Jogos" },
+	  { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", title: "Never Gonna Give You Up - Clássico", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=tPjVxvhcy9E", title: "PARKOUR ROBLOX - xMarcelo", category: "Jogos" },
+	  { url: "https://www.youtube.com/watch?v=3JZ_D3ELwOQ", title: "Hit Em Up Style - Blu Cantrell", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=9bZkp7q19f0", title: "PSY - GANGNAM STYLE MV", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=kJQP7kiw5Fk", title: "Luis Fonsi - Despacito ft. Daddy Yankee", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=RgKAFK5djSk", title: "Wiz Khalifa - See You Again ft. Charlie Puth", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=OPf0YbXqDm0", title: "Mark Ronson - Uptown Funk ft. Bruno Mars", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=JGwWNGJdvx8", title: "Ed Sheeran - Shape of You", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=YQHsXMglC9A", title: "Adele - Hello", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=2Vv-BfVoq4g", title: "Ed Sheeran - Perfect", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=09R8_2nJtjg", title: "Maroon 5 - Sugar", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=hT_nvWreIhg", title: "OneRepublic - Counting Stars", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=CevxZvSJLk8", title: "Katy Perry - Roar", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=0KSOMA3QBU0", title: "Taylor Swift - Blank Space", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=fJ9rUzIMcZQ", title: "Queen - Bohemian Rhapsody", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=nfWlot6h_JM", title: "J Balvin, Willy William - Mi Gente", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=papuvlVeZg8", title: "Luka - Tom's Diner", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=kJQP7kiw5Fk", title: "Despacito - Remake Global", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=ZZ5LpwO-An4", title: "Hasan Raheem - Aisay Kaisay", category: "Música" },
+	  { url: "https://www.youtube.com/watch?v=V-_O7nl0Ii0", title: "Neil Buchanan - Art Attack Tutorial", category: "Tutoriais" },
+	  { url: "https://www.youtube.com/watch?v=LXb3EKWsInQ", title: "Como Criar Jogos em 10 Minutos", category: "Tutoriais" },
+	  { url: "https://www.youtube.com/watch?v=Z1BCujX3pw8", title: "JavaScript Completo para Iniciantes", category: "Tutoriais" },
+	  { url: "https://www.youtube.com/watch?v=kqtD5dpn9C8", title: "Python em 1 Hora - Guia Definitivo", category: "Tutoriais" },
+	  { url: "https://www.youtube.com/watch?v=5qap5aO4i9A", title: "Lofi Hip Hop Radio - Beats to Relax/Study", category: "Música" }
+	];
 
 // Conteúdo demo imediato: a Home nunca fica vazia enquanto a sincronização Gun carrega.
 initialVideos.forEach((v, i) => {
