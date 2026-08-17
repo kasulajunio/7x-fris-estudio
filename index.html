@@ -309,7 +309,7 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
 <script>
 // --- CONFIGURAÇÃO ---
 const gun = Gun(['https://gun-manhattan.herokuapp.com/gun', 'https://gun-us.herokuapp.com/gun']);
-const db = gun.get('7xfris-estudio-elite-v5');
+const db = gun.get('7xfris-estudio-elite-v6');
 let allVideos = {};
 let favorites = JSON.parse(localStorage.getItem('fav_videos') || '[]');
 let currentFilter = 'all';
@@ -541,7 +541,7 @@ db.map().on((data, key) => {
 setTimeout(() => {
   if (Object.keys(allVideos).length < 5) {
     initialVideos.forEach((v, i) => {
-      const id = 'elite-' + i;
+      const id = 'elite-v6-' + i;
       db.get(id).put({ ...v, id, at: Date.now() - (i * 1000) });
     });
   }
