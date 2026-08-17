@@ -17,6 +17,7 @@
   --accent:#ff0000;--accent-hover:#cc0000;
   --font-main:'Roboto',sans-serif;--font-title:'Space Grotesk',sans-serif;
   --transition:all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow:0 18px 60px rgba(0,0,0,.28);
 }
 [data-theme="blue"]{--accent:#3ea6ff;--accent-hover:#1c62b9}
 [data-theme="gold"]{--accent:#f5c518;--accent-hover:#c49b00}
@@ -124,7 +125,7 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
 .modal-title{font-family:var(--font-title);font-size:1.25rem}
 .form-group{margin-bottom:16px}
 .form-group label{display:block;font-size:0.85rem;margin-bottom:6px;color:var(--text-sec)}
-.form-group input, .form-group select{width:100%;height:44px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0 12px;color:var(--text);outline:none;transition:border-color 0.2s}
+.form-group input, .form-group select, .form-group textarea{width:100%;min-height:44px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);outline:none;transition:border-color 0.2s;font:inherit}.form-group textarea{resize:vertical;min-height:88px}
 .form-group input:focus{border-color:var(--accent)}
 .modal-footer{display:flex;justify-content:flex-end;gap:12px;margin-top:24px}
 
@@ -167,7 +168,7 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Pesquisar vídeos..." oninput="searchVideos(this.value)">
       </div>
-      <button class="search-btn flex-center"><svg viewBox="0 0 24 24" width="20"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/></svg></button>
+      <button class="search-btn flex-center" id="searchBtn" type="button" onclick="runAiSearch()" title="Pesquisar com Gemini"><svg viewBox="0 0 24 24" width="20"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/></svg></button>
     </div>
   </div>
   
@@ -192,7 +193,7 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
       <div class="hero-content">
         <div class="hero-tag">EM ALTA AGORA</div>
         <h1 class="hero-title">Bem-vindo ao 7x Fris Estudio</h1>
-        <p class="hero-desc">Sua plataforma definitiva para assistir vídeos sem anúncios e com foco total. Descubra conteúdos incríveis ou adicione os seus favoritos.</p>
+        <p class="hero-desc">Sua plataforma inteligente com menos distrações. Pesquise com a Gemini, assista no Modo Foco e descubra conteúdos de Jazzghost, xMarcelo e criadores globais.</p>
         <button class="btn btn-primary" onclick="openAddModal()">Adicionar Meu Primeiro Vídeo</button>
       </div>
       <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80" class="hero-img" alt="Hero Background">
@@ -217,9 +218,9 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
   <div class="player-header">
     <div class="player-title" id="currentPlayerTitle">Carregando vídeo...</div>
     <div class="player-controls">
-      <button class="player-btn" onclick="toggleFocusMode()" id="focusBtn" title="Modo IA (Menos Anúncios)">
+      <button class="player-btn" onclick="toggleFocusMode()" id="focusBtn" title="Modo Foco">
         <svg viewBox="0 0 24 24" width="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="currentColor"/></svg>
-        <span>Modo IA</span>
+        <span>Modo Foco</span>
       </button>
       <button class="player-btn" id="downloadPlayerBtn">
         <svg viewBox="0 0 24 24" width="18"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="currentColor"/></svg>
@@ -249,7 +250,7 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
     </div>
     <form onsubmit="handleAdd(event)">
       <div class="form-group">
-        <label>Link do Vídeo (YouTube, Vimeo, etc)</label>
+        <label>Link oficial do vídeo no YouTube</label>
         <input type="text" id="videoUrl" placeholder="https://..." required autofocus>
       </div>
       <div class="form-group">
@@ -292,13 +293,22 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
       </div>
     </div>
     <div class="form-group">
+      <label for="privateGeminiKey">Sua chave Gemini privada</label>
+      <input type="password" id="privateGeminiKey" autocomplete="new-password" placeholder="Cole sua chave aqui; ela não será salva no navegador">
+      <small style="display:block;color:var(--text-muted);margin-top:6px">A chave é enviada somente ao backend seguro e fica criptografada por usuário. Não coloque uma chave no GitHub.</small>
+    </div>
+    <div class="form-group">
+      <label for="privateInstructions">Preferências da sua IA</label>
+      <textarea id="privateInstructions" placeholder="Ex.: responda em português e priorize vídeos de Roblox"></textarea>
+    </div>
+    <div class="form-group">
       <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text-sec);font-size:0.8rem;line-height:1.5">
-        <strong style="color:var(--text)">Gemini IA Ativa</strong><br>
-        Seu assistente inteligente está pronto para ajudar na organização e foco.
+        <strong style="color:var(--text)">Busca Gemini conectada</strong><br>
+        A busca pública usa o backend e valida links do YouTube. A chave privada só funciona após autenticação da conta.
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-primary" onclick="saveSettings()">Salvar Preferências</button>
+      <button class="btn btn-primary" onclick="saveSettings()">Testar e salvar preferências</button>
     </div>
   </div>
 </div>
@@ -310,14 +320,69 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
 // --- CONFIGURAÇÃO ---
 const gun = Gun(['https://gun-manhattan.herokuapp.com/gun', 'https://gun-us.herokuapp.com/gun']);
 const db = gun.get('7xfris-estudio-elite-v6');
+const API_BASE = 'https://frisai-back-sxtmwpri.manus.space';
 let allVideos = {};
 let favorites = JSON.parse(localStorage.getItem('fav_videos') || '[]');
 let currentFilter = 'all';
 let searchQuery = '';
-let isFocusMode = false;
+let isFocusMode = true;
 
 // --- AUXILIARES ---
 const $ = s => document.querySelector(s);
+
+async function backendMutation(path, input) {
+  const response = await fetch(`${API_BASE}/api/trpc/${path}?batch=1`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 0: { json: input } })
+  });
+  const payload = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(payload?.[0]?.error?.json?.message || `Backend indisponível (${response.status})`);
+  const result = payload?.[0]?.result?.data;
+  return result?.json ?? result;
+}
+
+async function runAiSearch() {
+  const query = $('#searchInput').value.trim();
+  if (!query) return showToast('Digite algo para pesquisar com a Gemini.');
+  const btn = $('#searchBtn');
+  btn.disabled = true;
+  showToast('A Gemini está pesquisando vídeos reais...');
+  try {
+    const data = await backendMutation('video.searchSmart', { query });
+    const items = Array.isArray(data?.items) ? data.items : [];
+    if (!items.length) return showToast('A IA não encontrou links reais do YouTube para essa pesquisa.');
+    items.forEach((item, index) => {
+      const id = `ai-${Date.now()}-${index}`;
+      const record = { id, url: item.url, title: item.title || 'Vídeo encontrado pela Gemini', category: data.category || 'Outros', at: Date.now() - index };
+      allVideos[id] = record;
+      db.get(id).put(record);
+    });
+    currentFilter = 'all';
+    render();
+    showToast(`${items.length} vídeo(s) encontrados e adicionados à Home.`);
+  } catch (error) {
+    showToast(`Busca IA indisponível: ${error.message}`);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function savePrivateAi() {
+  const apiKey = $('#privateGeminiKey').value.trim();
+  const customInstructions = $('#privateInstructions').value.trim();
+  if (!apiKey) return showToast('Digite sua chave Gemini privada.');
+  showToast('Testando sua chave Gemini com segurança...');
+  try {
+    await backendMutation('userAi.saveKey', { apiKey, model: 'gemini-2.5-flash', customInstructions });
+    $('#privateGeminiKey').value = '';
+    showToast('IA privada configurada e criptografada no servidor.');
+    closeSettings();
+  } catch (error) {
+    showToast(`Não foi possível salvar: ${error.message}. Talvez seja necessário entrar na conta.`);
+  }
+}
 const showToast = (m) => {
   const t = $('#toast');
   t.textContent = m;
@@ -336,7 +401,7 @@ function extractYouTubeId(url) {
 
 function parseVideo(url) {
   const ytId = extractYouTubeId(url);
-  if (ytId) return { id: ytId, platform: 'YouTube', thumb: `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`, embed: `https://www.youtube.com/embed/${ytId}?autoplay=1` };
+  if (ytId) return { id: ytId, platform: 'YouTube', thumb: `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`, embed: `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1` };
   const vimeoId = url.match(/vimeo\.com\/(\d+)/);
   if (vimeoId) return { id: vimeoId[1], platform: 'Vimeo', thumb: null, embed: `https://player.vimeo.com/video/${vimeoId[1]}?autoplay=1` };
   return { id: null, platform: 'Link', thumb: null, embed: null };
@@ -422,7 +487,8 @@ function setTheme(t) {
 }
 
 function saveSettings() {
-  showToast('Preferências salvas com sucesso!');
+  if ($('#privateGeminiKey').value.trim()) return savePrivateAi();
+  showToast('Preferências visuais salvas com sucesso!');
   closeSettings();
 }
 
@@ -432,15 +498,17 @@ function handleAdd(e) {
   const title = $('#videoTitle').value.trim() || 'Vídeo sem título';
   const category = $('#videoCategory').value;
   
-  if (!url.startsWith('http')) return showToast('Link inválido!');
+  if (!/^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//i.test(url)) return showToast('Use um link oficial do YouTube.');
   
   const id = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-  db.get(id).put({ id, url, title, category, at: Date.now() });
+  const record = { id, url, title, category, at: Date.now() };
+  db.get(id).put(record);
+  backendMutation('video.add', { videoUrl: url, title, category, platform: 'YouTube' }).catch(() => {});
   
   $('#videoUrl').value = '';
   $('#videoTitle').value = '';
   closeAddModal();
-  showToast('Vídeo adicionado à sua biblioteca!');
+  showToast('Vídeo adicionado à sua biblioteca e enviado ao catálogo compartilhado!');
 }
 
 function toggleFavorite(id) {
@@ -531,6 +599,13 @@ const initialVideos = [
   { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", title: "Never Gonna Give You Up - Clássico", category: "Música" },
   { url: "https://www.youtube.com/watch?v=tPjVxvhcy9E", title: "PARKOUR ROBLOX - xMarcelo", category: "Jogos" }
 ];
+
+// Conteúdo demo imediato: a Home nunca fica vazia enquanto a sincronização Gun carrega.
+initialVideos.forEach((v, i) => {
+  const id = 'demo-' + i;
+  allVideos[id] = { ...v, id, at: Date.now() - (i * 1000) };
+});
+render();
 
 db.map().on((data, key) => {
   if (!data) delete allVideos[key];
