@@ -1,4 +1,4 @@
-const CACHE_NAME = '7xfris-ultra-v2';
+const CACHE_NAME = '7x-fris-ultra-v3';
 const APP_SHELL = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', event => {
@@ -19,11 +19,13 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
+  const requestUrl = new URL(event.request.url);
+  const isNavigation = event.request.mode === 'navigate' || requestUrl.pathname.endsWith('/index.html') || requestUrl.pathname.endsWith('/');
 
   event.respondWith(
-    fetch(event.request)
+    (isNavigation ? fetch(event.request, { cache: 'no-store' }) : fetch(event.request))
       .then(response => {
-        if (response.ok && new URL(event.request.url).origin === self.location.origin) {
+        if (response.ok && requestUrl.origin === self.location.origin && !isNavigation) {
           const copy = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
         }
@@ -40,5 +42,5 @@ self.addEventListener('message', event => {
   if (event.data === 'SKIP_WAITING') self.skipWaiting();
 });
 
-// Vídeos incorporados do YouTube e Vimeo continuam dependendo da internet.
+// Vídeos incorporados do YouTube dependem da internet e anúncios são controlados pela plataforma.
 // Nenhuma API key ou credencial é armazenada no service worker.
