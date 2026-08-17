@@ -244,6 +244,12 @@ body{font-family:var(--font-main);background:radial-gradient(circle at 72% -12%,
   <div class="player-wrapper" id="playerWrapper">
     <iframe id="playerFrame" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
   </div>
+  <div class="player-footer-banner" style="display:flex;justify-content:space-between;align-items:center;padding:10px 20px;background:rgba(20,20,20,0.95);border-top:1px solid rgba(255,255,255,0.08);font-size:0.75rem;color:#888;">
+    <span id="focusIndicatorBadge" style="display:inline-flex;align-items:center;gap:6px;color:#2ba640;font-weight:600;">
+      <span style="width:8px;height:8px;background:#2ba640;border-radius:50%;display:inline-block;box-shadow:0 0 8px #2ba640;"></span> Modo Foco Ativo (youtube-nocookie)
+    </span>
+    <span>Nota: Anúncios e monetização em vídeos incorporados são gerenciados diretamente pelas plataformas de origem (YouTube).</span>
+  </div>
 </div>
 
 <!-- ADD MODAL -->
@@ -413,7 +419,10 @@ function extractYouTubeId(url) {
 
 function parseVideo(url) {
   const ytId = extractYouTubeId(url);
-  if (ytId) return { id: ytId, platform: 'YouTube', thumb: `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`, embed: `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1` };
+  if (ytId) {
+    const domain = isFocusMode ? 'www.youtube-nocookie.com' : 'www.youtube.com';
+    return { id: ytId, platform: 'YouTube', thumb: `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`, embed: `https://${domain}/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&controls=1&iv_load_policy=3` };
+  }
   const vimeoId = url.match(/vimeo\.com\/(\d+)/);
   if (vimeoId) return { id: vimeoId[1], platform: 'Vimeo', thumb: null, embed: `https://player.vimeo.com/video/${vimeoId[1]}?autoplay=1` };
   return { id: null, platform: 'Link', thumb: null, embed: null };

@@ -1,4 +1,4 @@
-const CACHE_NAME = '7x-fris-ultra-v4';
+const CACHE_NAME = '7x-fris-ultra-v5';
 const APP_SHELL = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', event => {
