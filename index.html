@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>7x Fris Estudio | Ultra Edition</title>
+<title>7x Fris Estudio | Plataforma de Vídeos Elite</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ff0000">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23FF0000'/><polygon points='13,9 13,23 23,16' fill='%23FFFFFF'/></svg>">
@@ -26,7 +26,6 @@
 html, body{height:100%;overflow:hidden}
 body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-height:1.5;display:flex;flex-direction:column}
 
-/* UTILS */
 .hidden{display:none !important}
 .flex-center{display:flex;align-items:center;justify-content:center}
 
@@ -66,6 +65,14 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
 
 .main-view{flex:1;background:var(--bg);overflow-y:auto;padding:24px;scrollbar-width:thin}
 
+/* HERO SECTION */
+.hero-section{margin-bottom:32px;position:relative;border-radius:16px;overflow:hidden;background:linear-gradient(to right, #1a1a1a, #0f0f0f);border:1px solid var(--border);display:flex;min-height:200px}
+.hero-content{padding:32px;flex:1;display:flex;flex-direction:column;justify-content:center;z-index:2}
+.hero-tag{background:var(--accent);color:#fff;padding:4px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;width:fit-content;margin-bottom:12px}
+.hero-title{font-family:var(--font-title);font-size:2rem;margin-bottom:8px}
+.hero-desc{color:var(--text-sec);margin-bottom:20px;max-width:500px}
+.hero-img{position:absolute;right:0;top:0;height:100%;width:50%;object-fit:cover;mask-image:linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0));opacity:0.6}
+
 /* CHIPS */
 .chips-bar{display:flex;gap:12px;margin-bottom:24px;overflow-x:auto;padding-bottom:8px}
 .chips-bar::-webkit-scrollbar{display:none}
@@ -92,6 +99,7 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
 .video-actions{display:flex;gap:8px;margin-top:8px}
 .action-btn{background:var(--surface-el);border:none;color:var(--text-sec);padding:4px 8px;border-radius:6px;font-size:0.75rem;cursor:pointer;display:flex;align-items:center;gap:4px;transition:var(--transition)}
 .action-btn:hover{background:var(--surface-hover);color:var(--text)}
+.action-btn.active{color:var(--accent)}
 .action-btn svg{width:14px;height:14px;fill:currentColor}
 
 /* PLAYER OVERLAY */
@@ -120,11 +128,6 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
 .form-group input:focus{border-color:var(--accent)}
 .modal-footer{display:flex;justify-content:flex-end;gap:12px;margin-top:24px}
 
-/* THEME SELECTOR */
-.theme-grid{display:grid;grid-template-columns:repeat(5, 1fr);gap:10px}
-.theme-opt{height:40px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:var(--transition)}
-.theme-opt.active{border-color:#fff}
-
 /* BUTTONS */
 .btn{height:40px;padding:0 20px;border-radius:20px;border:none;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:var(--transition)}
 .btn-primary{background:var(--accent);color:#fff}
@@ -141,7 +144,9 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
   .header-center{margin:0 8px}
   .brand-name{display:none}
   .main-view{padding:16px}
-  .player-header{flex-direction:column;gap:10px;align-items:flex-start}
+  .hero-section{flex-direction:column;min-height:auto}
+  .hero-img{position:static;width:100%;height:150px;mask-image:none;opacity:1}
+  .hero-title{font-size:1.5rem}
 }
 </style>
 </head>
@@ -177,12 +182,22 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-item active" data-filter="all" onclick="setFilter('all')"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Início</span></div>
     <div class="sidebar-item" data-filter="YouTube" onclick="setFilter('YouTube')"><svg viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 8.93z"/><path d="M21.56 7.17s-.19-1.35-.78-1.94c-.75-.78-1.59-.79-1.97-.83C16.1 4.11 12 4.11 12 4.11s-4.1 0-6.81.29c-.38.04-1.22.05-1.97.83-.59.59-.78 1.94-.78 1.94S2.15 8.94 2.15 10.7v1.73c0 1.76.29 3.53.29 3.53s.19 1.35.78 1.94c.75.78 1.59.79 1.97.83 2.71.29 6.81.29 6.81.29s4.1 0 6.81-.29c.38-.04 1.22-.05 1.97-.83.59-.59.78-1.94.78-1.94s.29-1.77.29-3.53V10.7c0-1.76-.29-3.53-.29-3.53z"/></svg><span>YouTube</span></div>
-    <div class="sidebar-item" data-filter="Vimeo" onclick="setFilter('Vimeo')"><svg viewBox="0 0 24 24"><path d="M22.396 7.16c-.093 2.058-1.507 4.871-4.242 8.439-2.836 3.731-5.187 5.597-7.054 5.597-1.198 0-2.213-1.104-3.045-3.312L6.15 11.7c-.553-2.023-1.135-3.037-1.747-3.037-.14 0-.61.288-1.41.865L2 9.07c1.11-1.025 2.219-2.077 3.328-3.156 1.487-1.353 2.548-2.062 3.183-2.126 1.157-.122 1.895.666 2.214 2.363.414 2.181.71 3.57 0.887 4.168.497 1.849 1.122 2.774 1.874 2.774.527 0 1.22-.57 2.08-1.711.86-1.14 1.365-2.036 1.515-2.687.355-1.488-.236-2.247-1.774-2.277-.63-.012-1.306.143-2.028.468 1.353-4.428 3.99-6.577 7.91-6.449 1.05.034 1.666.527 1.85 1.481z"/></svg><span>Vimeo</span></div>
+    <div class="sidebar-item" data-filter="Favoritos" onclick="setFilter('Favoritos')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span>Favoritos</span></div>
     <div class="sidebar-divider"></div>
     <div class="sidebar-item" onclick="openAddModal()"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg><span>Novo Vídeo</span></div>
   </aside>
 
   <main class="main-view">
+    <div class="hero-section" id="heroSection">
+      <div class="hero-content">
+        <div class="hero-tag">EM ALTA AGORA</div>
+        <h1 class="hero-title">Bem-vindo ao 7x Fris Estudio</h1>
+        <p class="hero-desc">Sua plataforma definitiva para assistir vídeos sem anúncios e com foco total. Descubra conteúdos incríveis ou adicione os seus favoritos.</p>
+        <button class="btn btn-primary" onclick="openAddModal()">Adicionar Meu Primeiro Vídeo</button>
+      </div>
+      <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80" class="hero-img" alt="Hero Background">
+    </div>
+
     <div class="chips-bar" id="chipsBar">
       <button class="chip active" data-filter="all" onclick="setFilter('all')">Tudo</button>
       <button class="chip" data-filter="Filmes" onclick="setFilter('Filmes')">Filmes</button>
@@ -279,11 +294,11 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
     <div class="form-group">
       <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text-sec);font-size:0.8rem;line-height:1.5">
         <strong style="color:var(--text)">Gemini IA Ativa</strong><br>
-        O site agora usa IA para organizar conteúdos e fornecer o Modo Foco sem anúncios.
+        Seu assistente inteligente está pronto para ajudar na organização e foco.
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-primary" onclick="saveSettings()">Salvar Configurações</button>
+      <button class="btn btn-primary" onclick="saveSettings()">Salvar Preferências</button>
     </div>
   </div>
 </div>
@@ -292,15 +307,16 @@ body{font-family:var(--font-main);background:var(--bg);color:var(--text);line-he
 
 <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
 <script>
-// --- CORE SETUP ---
+// --- CONFIGURAÇÃO ---
 const gun = Gun(['https://gun-manhattan.herokuapp.com/gun', 'https://gun-us.herokuapp.com/gun']);
-const db = gun.get('7xfris-estudio-ultra-v3');
+const db = gun.get('7xfris-estudio-elite-v5');
 let allVideos = {};
+let favorites = JSON.parse(localStorage.getItem('fav_videos') || '[]');
 let currentFilter = 'all';
 let searchQuery = '';
 let isFocusMode = false;
 
-// --- HELPERS ---
+// --- AUXILIARES ---
 const $ = s => document.querySelector(s);
 const showToast = (m) => {
   const t = $('#toast');
@@ -332,12 +348,14 @@ function getDownloadUrl(url) {
   return url;
 }
 
-// --- RENDER ---
+// --- RENDERIZAÇÃO ---
 function render() {
   const grid = $('#videoGrid');
   let list = Object.values(allVideos).filter(v => v && v.url);
   
-  if (currentFilter !== 'all') {
+  if (currentFilter === 'Favoritos') {
+    list = list.filter(v => favorites.includes(v.id));
+  } else if (currentFilter !== 'all') {
     list = list.filter(v => v.category === currentFilter || parseVideo(v.url).platform === currentFilter);
   }
   
@@ -349,7 +367,7 @@ function render() {
   list.sort((a,b) => (b.at || 0) - (a.at || 0));
   
   if (list.length === 0) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:100px 0;color:var(--text-sec)">Nenhum vídeo encontrado.</div>`;
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:100px 0;color:var(--text-sec)">Nenhum vídeo encontrado. Tente adicionar um!</div>`;
     return;
   }
   
@@ -357,6 +375,7 @@ function render() {
     const info = parseVideo(v.url);
     const thumb = info.thumb ? `<img src="${info.thumb}" loading="lazy">` : `<div class="flex-center" style="height:100%;color:var(--text-muted)"><svg viewBox="0 0 24 24" width="48"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-10 11.5v-5l5 2.5-5 2.5z" fill="currentColor"/></svg></div>`;
     const avatar = (v.title || 'V').charAt(0).toUpperCase();
+    const isFav = favorites.includes(v.id);
     
     return `
       <div class="video-card">
@@ -370,11 +389,14 @@ function render() {
             <div class="video-title" onclick="playVideo('${v.url}', '${escapeHtml(v.title)}')">${escapeHtml(v.title)}</div>
             <div class="video-meta">${escapeHtml(v.category || info.platform)} • ${v.at ? new Date(v.at).toLocaleDateString('pt-BR') : 'Recente'}</div>
             <div class="video-actions">
+              <button class="action-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite('${v.id}')">
+                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> ${isFav ? 'Favorito' : 'Salvar'}
+              </button>
               <button class="action-btn" onclick="window.open('${getDownloadUrl(v.url)}', '_blank')">
                 <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg> Baixar
               </button>
               <button class="action-btn" onclick="deleteVideo('${v.id}')">
-                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg> Remover
+                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
               </button>
             </div>
           </div>
@@ -384,7 +406,7 @@ function render() {
   }).join('');
 }
 
-// --- ACTIONS ---
+// --- AÇÕES ---
 function toggleSidebar() { $('#sidebar').classList.toggle('collapsed'); }
 function openAddModal() { $('#addModal').classList.add('active'); $('#videoUrl').focus(); }
 function closeAddModal() { $('#addModal').classList.remove('active'); }
@@ -400,7 +422,7 @@ function setTheme(t) {
 }
 
 function saveSettings() {
-  showToast('Preferências salvas!');
+  showToast('Preferências salvas com sucesso!');
   closeSettings();
 }
 
@@ -418,11 +440,24 @@ function handleAdd(e) {
   $('#videoUrl').value = '';
   $('#videoTitle').value = '';
   closeAddModal();
-  showToast('Vídeo adicionado com sucesso!');
+  showToast('Vídeo adicionado à sua biblioteca!');
+}
+
+function toggleFavorite(id) {
+  const idx = favorites.indexOf(id);
+  if (idx > -1) {
+    favorites.splice(idx, 1);
+    showToast('Removido dos favoritos');
+  } else {
+    favorites.push(id);
+    showToast('Adicionado aos favoritos!');
+  }
+  localStorage.setItem('fav_videos', JSON.stringify(favorites));
+  render();
 }
 
 function deleteVideo(id) {
-  if (confirm('Deseja remover este vídeo?')) {
+  if (confirm('Deseja remover este vídeo da sua lista?')) {
     db.get(id).put(null);
     delete allVideos[id];
     render();
@@ -446,7 +481,7 @@ function toggleFocusMode() {
   const btn = $('#focusBtn');
   if (isFocusMode) {
     btn.style.background = 'var(--accent)';
-    showToast('Modo IA: Tentando carregar sem anúncios...');
+    showToast('Modo IA: Foco total ativado');
   } else {
     btn.style.background = 'rgba(255,255,255,0.1)';
     showToast('Modo Normal');
@@ -485,14 +520,16 @@ function searchVideos(q) {
   render();
 }
 
-// --- INITIALIZE ---
+// --- INICIALIZAÇÃO ---
 const initialVideos = [
   { url: "https://www.youtube.com/watch?v=ke_y4SVbZD4", title: "Saturday0815 - Jazzghost", category: "Jogos" },
   { url: "https://www.youtube.com/watch?v=QQ6pYZQaqO8", title: "A CASA MAIS ESTRANHA DO MUNDO - Jazzghost", category: "Filmes" },
   { url: "https://www.youtube.com/watch?v=QbA-h5OtuLI", title: "FINAL DA GRANNY 3! - Jazzghost", category: "Jogos" },
   { url: "https://www.youtube.com/watch?v=_Bs_dATSSBM", title: "SOCCER PLAYERS ROBLOX - xMarcelo", category: "Jogos" },
   { url: "https://www.youtube.com/watch?v=5iwqBXc-FoM", title: "ROBLOX STEAL AN EGG - xMarcelo", category: "Jogos" },
-  { url: "https://www.youtube.com/watch?v=lb4l_k3zlhc", title: "ROBUX INFINITO ROBLOX - xMarcelo", category: "Jogos" }
+  { url: "https://www.youtube.com/watch?v=lb4l_k3zlhc", title: "ROBUX INFINITO ROBLOX - xMarcelo", category: "Jogos" },
+  { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", title: "Never Gonna Give You Up - Clássico", category: "Música" },
+  { url: "https://www.youtube.com/watch?v=tPjVxvhcy9E", title: "PARKOUR ROBLOX - xMarcelo", category: "Jogos" }
 ];
 
 db.map().on((data, key) => {
@@ -501,29 +538,25 @@ db.map().on((data, key) => {
   render();
 });
 
-// Injetar vídeos iniciais se o banco estiver vazio
 setTimeout(() => {
-  if (Object.keys(allVideos).length < 3) {
+  if (Object.keys(allVideos).length < 5) {
     initialVideos.forEach((v, i) => {
-      const id = 'init-' + i;
+      const id = 'elite-' + i;
       db.get(id).put({ ...v, id, at: Date.now() - (i * 1000) });
     });
   }
 }, 2000);
 
-// Load Theme
 setTheme(localStorage.getItem('app_theme') || 'red');
 
-// Register PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').then(reg => {
-      console.log('SW registered');
-    }).catch(err => console.log('SW failed', err));
+      console.log('SW ativo');
+    }).catch(err => console.log('SW falhou', err));
   });
 }
 
-// Keyboard
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeAddModal(); closePlayer(); closeSettings(); }
 });
